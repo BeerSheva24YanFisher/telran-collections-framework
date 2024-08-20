@@ -3,6 +3,7 @@ package telran.util;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 public abstract class CollectionTest {
@@ -14,16 +15,17 @@ public abstract class CollectionTest {
 
     @Test
     void addTest(){
-        collection.add(200);
-        collection.add(17);
+        assertTrue(collection.add(200));
+        assertTrue(collection.add(17));
         assertEquals(array.length+2, collection.size());
     }
 
     @Test
     void sizeTest(){
-        //TODO
-        Arrays.stream(array).forEach(collection::add);
+        assertEquals(array.length, collection.size());
     }
+
+    
 
 
     

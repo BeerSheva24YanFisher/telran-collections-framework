@@ -1,6 +1,8 @@
 package telran.util;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayList<T> implements List<T>{
     private static final int DEFAULT_CAPACITY = 16;
@@ -17,59 +19,120 @@ public class ArrayList<T> implements List<T>{
 
     @Override
     public void add(int index, T obj) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        checkSize(index);
+        if (size == array.length) {
+            reallocate();
+        }
+        System.arraycopy(array, index, array, index + 1, size - index);
+        array[index] = obj;
+        size++;
     }
 
     @Override
     public T remove(int index) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        checkSize(index);
+        T removedElement = null;
+        if (index<size) {
+            removedElement = (T) array[index];
+            System.arraycopy(array, index + 1, array, index, size-index-1);
+            array[--size] = null;
+        }
+        return removedElement;
     }
 
     @Override
     public T get(T pattern) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int index = indexOf(pattern);
+        T getElement = null;
+        if(index>=0){
+            getElement = (T) array[index];
+        }
+        return getElement;
     }
 
     @Override
-    public int indexOf(T pattrn) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public int indexOf(T pattern) {
+        int index = 0;
+        while (index<size && !pattern.equals(array[index])) {
+            index++;
+        }
+        return index>=size ? -1:index;
     }
 
     @Override
     public int lastIndex(T pattern) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int index = array.length-1;
+        while (index>=0 && !pattern.equals(array[index])) {
+            index--;
+        }
+        return index<0 ? -1:index;
+        
     }
 
     @Override
     public boolean add(T obj) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (size == array.length) {
+            reallocate();
+        }
+        array[size++]=  obj;
+        return true;
     }
 
     @Override
     public boolean remove(T pattern) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int index = indexOf(pattern);
+            if (index>=0) {
+                remove(index);      
+            }
+        return index>=0;
     }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return size == 0;
     }
 
     @Override
     public boolean contains(T pattern) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return indexOf(pattern) >= 0;
     }
 
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new ArrayListIterator();
     }
 
-    
+    private void reallocate() {
+        array = Arrays.copyOf(array, array.length*2);
+    }
 
+    private void checkSize(int index){
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
+    private class ArrayListIterator implements Iterator<T> {
+        private int current = 0;
+    
+        @Override
+        public boolean hasNext() {
+            return current < size;
+        }
+    
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return (T)array[current++];
+        }
+    }
 }
+
+
