@@ -2,9 +2,8 @@ package telran.util;
 
 import java.util.Arrays;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 public abstract class CollectionTest {
     protected Collection<Integer> collection;
@@ -20,9 +19,11 @@ public abstract class CollectionTest {
         assertEquals(array.length+2, collection.size());
     }
 
-
-
-
+    @Test
+    void sizeTest(){
+        //TODO
+        Arrays.stream(array).forEach(collection::add);
+    }
 
 
     
