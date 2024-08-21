@@ -18,7 +18,7 @@ abstract public class ListTest extends CollectionTest{
     @Test
     void addIndexTest() {
         list.add(2, 50);
-        assertEquals(50, list.get(50));
+        assertEquals(50, list.get(2));
         assertEquals(array.length + 1, collection.size());
     }
 
@@ -31,7 +31,7 @@ abstract public class ListTest extends CollectionTest{
 
     @Test
     void getTest() {
-        assertEquals((Integer) 20, list.get(20));
+        assertEquals((Integer) 1, list.get(3));
         assertNull(list.get(200));
     }
 

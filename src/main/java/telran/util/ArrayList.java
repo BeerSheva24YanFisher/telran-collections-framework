@@ -28,26 +28,20 @@ public class ArrayList<T> implements List<T>{
         size++;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T remove(int index) {
         checkSize(index);
-        T removedElement = null;
-        if (index<size) {
-            removedElement = (T) array[index];
-            System.arraycopy(array, index + 1, array, index, size-index-1);
-            array[--size] = null;
-        }
+        T removedElement = (T) array[index];
+        System.arraycopy(array, index + 1, array, index, size-index-1);
+        array[--size] = null;
         return removedElement;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public T get(T pattern) {
-        int index = indexOf(pattern);
-        T getElement = null;
-        if(index>=0){
-            getElement = (T) array[index];
-        }
-        return getElement;
+    public T get(int index) {
+        return index>=0 && index<size ? (T) array[index] : null;
     }
 
     @Override
@@ -65,7 +59,7 @@ public class ArrayList<T> implements List<T>{
         while (index>=0 && !pattern.equals(array[index])) {
             index--;
         }
-        return index<0 ? -1:index;
+        return index;
         
     }
 
