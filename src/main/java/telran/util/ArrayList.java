@@ -76,9 +76,9 @@ public class ArrayList<T> implements List<T>{
     @Override
     public boolean remove(T pattern) {
         int index = indexOf(pattern);
-            if (index>=0) {
-                remove(index);      
-            }
+        if (index>=0) {
+            remove(index);      
+        }
         return index>=0;
     }
 
