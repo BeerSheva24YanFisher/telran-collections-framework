@@ -41,7 +41,8 @@ public class ArrayList<T> implements List<T>{
     @SuppressWarnings("unchecked")
     @Override
     public T get(int index) {
-        return index>=0 && index<size ? (T) array[index] : null;
+        checkSize(index);
+        return (T) array[index];
     }
 
     @Override
