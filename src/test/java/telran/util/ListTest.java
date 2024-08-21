@@ -2,7 +2,7 @@ package telran.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +32,7 @@ abstract public class ListTest extends CollectionTest{
     @Test
     void getTest() {
         assertEquals((Integer) 1, list.get(3));
-        assertNull(list.get(200));
+        assertThrows(IndexOutOfBoundsException.class, ()-> list.get(200));
     }
 
     @Test
