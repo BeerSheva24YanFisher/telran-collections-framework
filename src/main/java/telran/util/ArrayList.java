@@ -3,6 +3,7 @@ package telran.util;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class ArrayList<T> implements List<T>{
     private static final int DEFAULT_CAPACITY = 16;
@@ -19,7 +20,7 @@ public class ArrayList<T> implements List<T>{
 
     @Override
     public void add(int index, T obj) {
-        checkSize(index);
+        checkSize(index, true);
         if (size == array.length) {
             reallocate();
         }
@@ -31,7 +32,7 @@ public class ArrayList<T> implements List<T>{
     @SuppressWarnings("unchecked")
     @Override
     public T remove(int index) {
-        checkSize(index);
+        checkSize(index, false);
         T removedElement = (T) array[index];
         System.arraycopy(array, index + 1, array, index, size-index-1);
         array[--size] = null;
@@ -41,14 +42,14 @@ public class ArrayList<T> implements List<T>{
     @SuppressWarnings("unchecked")
     @Override
     public T get(int index) {
-        checkSize(index);
+        checkSize(index, false);
         return (T) array[index];
     }
 
     @Override
     public int indexOf(T pattern) {
         int index = 0;
-        while (index<size && !pattern.equals(array[index])) {
+        while (index<size && !Objects.equals(pattern, array[index])) {
             index++;
         }
         return index>=size ? -1:index;
@@ -57,7 +58,7 @@ public class ArrayList<T> implements List<T>{
     @Override
     public int lastIndex(T pattern) {
         int index = array.length-1;
-        while (index>=0 && !pattern.equals(array[index])) {
+        while (index>=0 && !Objects.equals(pattern, array[index])) {
             index--;
         }
         return index;
@@ -106,9 +107,10 @@ public class ArrayList<T> implements List<T>{
         array = Arrays.copyOf(array, array.length*2);
     }
 
-    private void checkSize(int index){
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException();
+    private void checkSize(int index, boolean sizeInclusive){
+        int limit = sizeInclusive ? size : size - 1;
+        if (index < 0 || index > limit) {
+         throw new IndexOutOfBoundsException(index);
         }
     }
 
