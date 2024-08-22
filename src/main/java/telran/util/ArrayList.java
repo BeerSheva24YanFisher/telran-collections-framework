@@ -120,6 +120,7 @@ public class ArrayList<T> implements List<T>{
             return current < size;
         }
     
+        @SuppressWarnings("unchecked")
         @Override
         public T next() {
             if (!hasNext()) {
