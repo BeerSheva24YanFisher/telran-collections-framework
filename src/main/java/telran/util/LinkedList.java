@@ -148,7 +148,7 @@ public class LinkedList<T> implements List<T> {
     }
 
     @Override
-    public int lastIndex(T pattern) {
+    public int lastIndexOf(T pattern) {
         int index = size-1;
         Node<T> current = tail;
         while (index>=0 && !Objects.equals(pattern, current.obj)) {

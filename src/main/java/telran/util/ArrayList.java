@@ -56,7 +56,7 @@ public class ArrayList<T> implements List<T>{
     }
 
     @Override
-    public int lastIndex(T pattern) {
+    public int lastIndexOf(T pattern) {
         int index = array.length-1;
         while (index>=0 && !Objects.equals(pattern, array[index])) {
             index--;
