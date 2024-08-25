@@ -44,8 +44,8 @@ abstract public class ListTest extends CollectionTest{
     @Test
     void lastIndexTest() {
         list.add(10);
-        assertEquals(8, list.lastIndex(10));
-        assertEquals(-1, list.lastIndex(200));
+        assertEquals(8, list.lastIndexOf(10));
+        assertEquals(-1, list.lastIndexOf(200));
     }
 
     @Test

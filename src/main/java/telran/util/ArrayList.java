@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public class ArrayList<T> implements List<T>{
     private static final int DEFAULT_CAPACITY = 16;
@@ -114,11 +115,29 @@ public class ArrayList<T> implements List<T>{
         }
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean removeIf(Predicate<T> predicate) {
+        int i = 0, j = 0;
+        while (i < size) {
+            if (!predicate.test((T) array[i])) {
+                array[j++] = array[i];
+            }
+            i++;
+        }
+        Arrays.fill(array, j, size, null);
+        boolean removed = size != j;
+        size = j;
+        return removed;
+    }
+
     private class ArrayListIterator implements Iterator<T> {
         private int current = 0;
+        private boolean flNext = false;
     
         @Override
         public boolean hasNext() {
+            flNext = true;
             return current < size;
         }
     
@@ -129,6 +148,15 @@ public class ArrayList<T> implements List<T>{
                 throw new NoSuchElementException();
             }
             return (T)array[current++];
+        }
+
+        @Override
+        public void remove() {
+            if(!flNext) {
+                throw new IllegalStateException();
+            }
+            ArrayList.this.remove(--current);
+            flNext = false;
         }
     }
 }
