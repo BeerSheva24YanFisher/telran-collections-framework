@@ -118,12 +118,11 @@ public class ArrayList<T> implements List<T>{
     @SuppressWarnings("unchecked")
     @Override
     public boolean removeIf(Predicate<T> predicate) {
-        int i = 0, j = 0;
-        while (i < size) {
+        int j = 0;
+        for (int i = 0; i < size; i++) {
             if (!predicate.test((T) array[i])) {
                 array[j++] = array[i];
             }
-            i++;
         }
         Arrays.fill(array, j, size, null);
         boolean removed = size != j;

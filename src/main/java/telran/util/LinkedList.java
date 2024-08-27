@@ -40,23 +40,11 @@ public class LinkedList<T> implements List<T> {
             if (!canRemove) {
                 throw new IllegalStateException();
             }
-            Node<T> nodeBefore = lastReturned.prev;
-            Node<T> nodeAfter = lastReturned.next;
-    
-            if (nodeBefore != null) {
-                nodeBefore.next = nodeAfter;
-            } else {head = nodeAfter;}
-    
-            if (nodeAfter != null) {
-                nodeAfter.prev = nodeBefore;
-            } else {tail = nodeBefore;}
-
+            LinkedList.this.removeNode(lastReturned);
             if (current == lastReturned) {
-                current = nodeAfter;
+                current = lastReturned.next;
             }
-    
-            size--;
-            clearReferences(lastReturned);
+        
             lastReturned = null;
             canRemove = false;
         }
