@@ -119,8 +119,16 @@ public abstract class CollectionTest {
     void performanceTest() {
         collection.clear();
         IntStream.range(0, N_ELEMENTS).forEach(i -> collection.add(random.nextInt()));
+        collection.removeIf(n -> n % 2 == 0);
+        assertTrue(collection.stream().allMatch(n -> n % 2 != 0));
         collection.clear();
+        assertTrue(collection.isEmpty());
+    }
 
+    @Test
+    void addExistingTest(){
+        assertTrue(collection.add(17));
+        runTest(new Integer[]{3, -10, 20, 1, 10, 8, 100 , 17, 17});
     }
 
 
