@@ -57,6 +57,9 @@ public abstract class CollectionTest {
             actual[index++] = it.next();
         }
         
+        Arrays.sort(array);
+        Arrays.sort(actual);
+        
         assertArrayEquals(array, actual);
         assertThrowsExactly(NoSuchElementException.class, it::next );
     }

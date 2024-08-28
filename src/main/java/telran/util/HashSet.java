@@ -23,7 +23,7 @@ public class HashSet<T> implements Set<T> {
     
         @Override
         public boolean hasNext() {
-            return currentIterator != null && currentIterator.hasNext();
+            return currentIterator != null;
         }
     
         @Override
@@ -51,13 +51,9 @@ public class HashSet<T> implements Set<T> {
         }
     
         private void moveToNextNonEmpty() {
-            while (indexIterator < hashTable.length && (hashTable[indexIterator] == null || !hashTable[indexIterator].iterator().hasNext())) {
-                indexIterator++;
-            }
-            if (indexIterator < hashTable.length) {
-                currentIterator = hashTable[indexIterator] != null ? hashTable[indexIterator].iterator() : null;
-            } else {
-                currentIterator = null;
+            while ((currentIterator == null || !currentIterator.hasNext()) && indexIterator < hashTable.length) {
+                List<T> list = hashTable[indexIterator++];
+                currentIterator = (list != null) ? list.iterator() : null;
             }
         }
     }
@@ -122,7 +118,6 @@ public class HashSet<T> implements Set<T> {
             hashTable[index].remove(pattern);
             size--;
         }
-
         return result;
     }
 
