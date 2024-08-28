@@ -92,6 +92,7 @@ public class HashSet<T> implements Set<T> {
         List<T> list = table[index];
         if (list == null) {
             list = new ArrayList<>(3);
+            table[index]=list;
         }
         list.add(obj);
     }
