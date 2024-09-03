@@ -8,7 +8,7 @@ public class TreeMapTest extends AbstractMapTest{
 
     @SuppressWarnings("unchecked")
     @Override
-    <T> void runTest(T[] expected) {
+    <T> void runTest(T[] expected, T[] actual) {
         Arrays.sort(expected, (o1, o2) -> ((Comparable<T>) o1).compareTo(o2));     
     }
 

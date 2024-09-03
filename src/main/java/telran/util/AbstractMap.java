@@ -37,7 +37,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V>{
     @SuppressWarnings("unchecked")
     @Override
     public boolean containsValue(Object value) {
-        Collection<V> values = (HashSet<V>) values();
+        Collection<V> values = values();
         return values.contains((V) value);
     }
 
