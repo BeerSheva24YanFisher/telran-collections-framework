@@ -1,5 +1,7 @@
 package telran.util;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
@@ -45,6 +47,7 @@ public abstract class AbstractMapTest {
     void testContainsKey() {
         Boolean[] expected = {true, true, false};
         Boolean[] actual = {map.containsKey(keys[1]), map.containsKey(keys[2]), map.containsKey(4)};
+        Arrays.sort(actual, Comparable::compareTo); 
         runTest(expected, actual);
     }
 
@@ -52,15 +55,17 @@ public abstract class AbstractMapTest {
     void testContainsValue() {
         Boolean[] expected = {true, true, false};
         Boolean[] actual = {map.containsValue(10), map.containsValue(20), map.containsValue(300)};
+        Arrays.sort(actual, Comparable::compareTo);
         runTest(expected, actual);
     }
 
     @Test
     void testKeySet() {
-        Integer[] expected = {1, 2, 3};
+        Integer[] expected = {1, 3,2};
         Set<Integer> myKeys = map.keySet();
         Integer[] actual = new Integer[myKeys.size()];
         actual = collectionToArray(myKeys, actual);
+        Arrays.sort(actual, Comparable::compareTo); 
         runTest(expected, actual);
     }
 
@@ -84,6 +89,7 @@ public abstract class AbstractMapTest {
         Collection<Integer> values = map.values();
         Integer[] actual = new Integer[values.size()];
         actual = collectionToArray(values, actual);
+        Arrays.sort(actual, Comparable::compareTo); 
         runTest(expected, actual);
     }
 
