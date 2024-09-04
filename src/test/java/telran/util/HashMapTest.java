@@ -2,6 +2,7 @@ package telran.util;
 
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 
 public class HashMapTest extends AbstractMapTest{
@@ -10,7 +11,10 @@ public class HashMapTest extends AbstractMapTest{
     @Override
     <T> void runTest(T[] expected, T[] actual) {
         Arrays.sort(expected, (o1, o2) -> ((Comparable<T>) o1).compareTo(o2));
-        Arrays.sort(actual, (o1, o2) -> ((Comparable<T>) o1).compareTo(o2));          
+        Arrays.sort(actual, (o1, o2) -> ((Comparable<T>) o1).compareTo(o2));
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals(expected[i], actual[i]);
+        }          
     }
 
     @Override

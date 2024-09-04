@@ -1,7 +1,5 @@
 package telran.util;
 
-import java.util.Objects;
-
 @SuppressWarnings("unchecked")
 public interface Map<K, V> {
     public static class Entry<K, V> implements Comparable<Entry<K,V>> {
@@ -30,13 +28,10 @@ public interface Map<K, V> {
             return key.hashCode();
         }
         
-        //Our method didn't work. This method is work
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null || getClass() != obj.getClass()) return false;
-            Entry<?, ?> entry = (Entry<?, ?>) obj;
-            return Objects.equals(key, entry.key) && Objects.equals(value, entry.value);
+        public boolean equals (Object obj) {
+            Entry<K,V> entry = (Entry<K,V>) obj;
+            return key.equals(entry.key);
         }
     }
     V get(Object key);

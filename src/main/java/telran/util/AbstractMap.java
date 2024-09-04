@@ -4,9 +4,11 @@ public abstract class AbstractMap<K, V> implements Map<K, V>{
     protected Set<Entry<K, V>> set;
     abstract protected Set<K> getEmptyKeySet();
 
+    @SuppressWarnings("unchecked")
     @Override
     public V get(Object key) {
-		Entry<K, V> entry = set.get(key);
+        Entry<K, V> pattern = new Entry<>((K)key, null);
+        Entry<K,V> entry = set.get(pattern);
 		V res = null;
 		if (entry != null) {
 			res = entry.getValue();
@@ -16,7 +18,8 @@ public abstract class AbstractMap<K, V> implements Map<K, V>{
 
     @Override
     public V put(K key, V value) {
-		Entry<K, V> entry = set.get(key);
+        Entry<K, V> pattern = new Entry<>(key, null);
+		Entry<K, V> entry = set.get(pattern);
 		V res = null;
 		if (entry == null) {
 			set.add(new Entry<>(key, value));
