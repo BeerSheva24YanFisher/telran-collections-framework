@@ -33,8 +33,8 @@ public abstract class AbstractMap<K, V> implements Map<K, V>{
     @SuppressWarnings("unchecked")
     @Override
     public boolean containsKey(Object key) {
-        Set<K> keys = keySet();
-        return keys.contains((K) key);
+        Entry<K, V> pattern = new Entry<>((K) key, null);
+        return set.get(pattern) != null;
     }
 
     @SuppressWarnings("unchecked")
@@ -60,7 +60,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V>{
 
     @Override
     public Collection<V> values() {
-        Set<V> values = new HashSet<>();
+        Collection<V> values = new ArrayList<>();
         for (Entry<K, V> entry : set) {
             values.add(entry.getValue());
         }
