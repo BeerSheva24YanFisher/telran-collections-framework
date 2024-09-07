@@ -4,7 +4,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 @SuppressWarnings("unchecked")
-public class TreeSet<T> implements Set<T> {
+public class TreeSet<T> implements SortedSet<T> {
+   
     private static class Node<T> {
         T obj;
         Node<T> parent;
@@ -176,7 +177,6 @@ public class TreeSet<T> implements Set<T> {
 		return parent;
     }
 private Node<T> getNextCurrent(Node<T> current) {
-		//Algorithm see on the board
 		return current.right != null ? getLeastFrom(current.right) :
 			getGreaterParent(current);
 	}
@@ -216,4 +216,54 @@ private Node<T> getNextCurrent(Node<T> current) {
 		node.parent = node.left = node.right = null;
 		
 	}
+
+
+
+    @Override
+	public T first() {
+		return root == null ? null : getLeastFrom(root).obj;
+	}
+
+	@Override
+	public T last() {
+		return root == null ? null : getGreatestFrom(root).obj;
+	}
+
+    @Override
+    public T floor(T key) {
+		return floorOrCeiling(key, true);
+	}
+
+	@Override
+	public T ceiling(T key) {
+		return floorOrCeiling(key, false);
+	}
+
+	private T floorOrCeiling(T key, boolean isFloor) {
+		T res = null;
+		int compRes = 0;
+		Node<T> current = root;
+		while (current != null && (compRes = comparator.compare(key, current.obj)) != 0) {
+			if ((compRes < 0 && !isFloor) || (compRes > 0 && isFloor)) {
+				res = current.obj;
+			}
+			current = compRes < 0 ? current.left : current.right;
+		}
+		return current == null ? res : current.obj;
+
+	}
+
+    @Override
+    public SortedSet<T> subSet(T keyFrom, T keyTo) {
+        TreeSet<T> subset = new TreeSet<>(comparator);
+        for (T item : this) {
+            if (comparator.compare(item, keyFrom) >= 0 && comparator.compare(item, keyTo) < 0) {
+                subset.add(item);
+            }
+        }
+        return subset;
+    }
+
+
+
 }
