@@ -255,15 +255,16 @@ private Node<T> getNextCurrent(Node<T> current) {
 
     @Override
     public SortedSet<T> subSet(T keyFrom, T keyTo) {
-        TreeSet<T> subset = new TreeSet<>(comparator);
-        for (T item : this) {
-            if (comparator.compare(item, keyFrom) >= 0 && comparator.compare(item, keyTo) < 0) {
-                subset.add(item);
-            }
+        if (comparator.compare(keyFrom, keyTo) > 0) {
+            throw new IllegalArgumentException();
         }
-        return subset;
+        SortedSet<T> subSet = new TreeSet<>(comparator);
+        Node<T> node = getNode(keyFrom);
+        while (node != null && comparator.compare(node.obj, keyTo) < 0) {
+            subSet.add(node.obj);
+            node = getNextCurrent(node);
+        }
+        return subSet;
     }
-
-
 
 }
