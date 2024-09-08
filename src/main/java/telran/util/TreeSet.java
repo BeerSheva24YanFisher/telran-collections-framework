@@ -62,7 +62,7 @@ public class TreeSet<T> implements SortedSet<T> {
         if (!contains(obj)) {
             res = true;
             Node<T> node = new Node<>(obj);
-            if(root == null) {
+            if (root == null) {
                 addRoot(node);
             } else {
                 addAfterParent(node);
