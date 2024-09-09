@@ -5,7 +5,7 @@ import java.util.Iterator;
 import telran.util.LinkedList.Node;
 
 public class LinkedHashSet<T> implements Set<T>{
-    private LinkedList<T> list = new LinkedList<>();
+    private final LinkedList<T> list = new LinkedList<>();
     HashMap<T, Node<T>> map = new HashMap<>();
 
     private class LinkedHashSetIterator implements Iterator<T> {
