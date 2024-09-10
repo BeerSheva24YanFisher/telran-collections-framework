@@ -231,40 +231,50 @@ private Node<T> getNextCurrent(Node<T> current) {
 
     @Override
     public T floor(T key) {
-		return floorOrCeiling(key, true);
+		return floorCeilingObj(key, true);
 	}
 
 	@Override
 	public T ceiling(T key) {
-		return floorOrCeiling(key, false);
+		return floorCeilingObj(key, false);
 	}
 
-	private T floorOrCeiling(T key, boolean isFloor) {
-		T res = null;
+    private T floorCeilingObj(T key, boolean isFloor) {
+        T res = null;
+        Node<T> node = floorOrCeiling(key, isFloor);
+        if (node != null) {
+            res = node.obj;
+        }
+        return res;
+    }
+
+	private Node<T> floorOrCeiling(T key, boolean isFloor) {
+		Node<T> res = null;
 		int compRes = 0;
 		Node<T> current = root;
 		while (current != null && (compRes = comparator.compare(key, current.obj)) != 0) {
 			if ((compRes < 0 && !isFloor) || (compRes > 0 && isFloor)) {
-				res = current.obj;
+				res = current;
 			}
 			current = compRes < 0 ? current.left : current.right;
 		}
-		return current == null ? res : current.obj;
+		return current == null ? res : current;
 
 	}
 
     @Override
     public SortedSet<T> subSet(T keyFrom, T keyTo) {
-        if (comparator.compare(keyFrom, keyTo) > 0) {
+        if(comparator.compare(keyFrom, keyTo) > 0) {
             throw new IllegalArgumentException();
         }
-        SortedSet<T> subSet = new TreeSet<>(comparator);
-        Node<T> node = getNode(keyFrom);
-        while (node != null && comparator.compare(node.obj, keyTo) < 0) {
-            subSet.add(node.obj);
-            node = getNextCurrent(node);
+        TreeSet<T> subTree = new TreeSet<>(comparator);
+        Node<T> ceilingNode = floorOrCeiling(keyFrom, false);
+        Node<T> current = ceilingNode;
+        while(current != null && comparator.compare(current.obj, keyTo) < 0) {
+            subTree.add(current.obj);
+            current = getNextCurrent(current);
         }
-        return subSet;
+    return subTree;
     }
 
 }
