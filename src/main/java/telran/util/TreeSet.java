@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 @SuppressWarnings("unchecked")
 public class TreeSet<T> implements SortedSet<T> {
+    private String printingSymbol = " ";
+    private int symbolsPerlevel;
    
     private static class Node<T> {
         T obj;
@@ -15,6 +17,16 @@ public class TreeSet<T> implements SortedSet<T> {
         Node(T obj) {
             this.obj = obj;
         }
+    }
+
+    public void setPrintingSymbollevel(String printingSymbol){
+        this.printingSymbol = printingSymbol;
+
+    }
+
+    public void setSymbolsPer(int symbolsPerLevel){
+        this.symbolsPerlevel = symbolsPerLevel;
+
     }
 
     private class TreeSetIterator implements Iterator<T> {
@@ -275,6 +287,85 @@ private Node<T> getNextCurrent(Node<T> current) {
             current = getNextCurrent(current);
         }
     return subTree;
+    }
+
+    public void displayTreeRotated() {
+		displayTreeRotated(root, 0);
+	}
+
+	private void displayTreeRotated(Node<T> root, int level) {
+		if (root != null) {
+			displayTreeRotated(root.right, level + 1);
+			displayRootObject(root.obj, level);
+			displayTreeRotated(root.left, level + 1);
+		}
+	}
+
+	private void displayRootObject(T obj, int level) {
+        System.out.printf("%s%s\n", printingSymbol.repeat(level * symbolsPerlevel), obj);
+	}
+
+
+
+
+
+
+    public void displayParentChildren() {
+		displayParentChildren( root, 0);
+	}
+	
+	private void displayParentChildren(Node<T> root, int level) {
+		if ( root != null ) {
+			displayRootObject(root.obj, level);
+			displayParentChildren(root.left, level + 1);
+			displayParentChildren(root.right, level + 1);
+		}
+	}
+
+
+    public int width() {
+		return width(root);
+	}
+
+	private int width(Node<T> root) {
+		int res = 0;
+		if ( root != null) {
+            res = root.left == null && root.right == null ? 1: width(root.left) + width(root.right);
+		}
+		return res;
+	}
+
+    public int height() {
+		
+		return height(root);
+	}
+
+	private int height(Node<T> root) {
+		int result = 0;
+		if (root != null ) {
+			int heightLeft = height(root.left);
+			int heighRight = height(root.right);
+			result = 1 + Math.max(heightLeft, heighRight);
+		}
+		return result;
+	}
+
+
+
+
+    public void inversion() {
+        invert(root);
+        comparator = comparator.reversed();
+    }
+    
+    private void invert(Node<T> node) {
+        if (node != null) {
+            Node<T> temp = node.left;
+            node.left = node.right;
+            node.right = temp;
+            invert(node.left);
+            invert(node.right);
+        }
     }
 
 }
