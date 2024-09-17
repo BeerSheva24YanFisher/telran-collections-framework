@@ -1,12 +1,14 @@
 package telran.util;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import org.junit.jupiter.api.Test;
 
 //{3, -10, 20, 1, 10, 8, 100 , 17}
@@ -77,11 +79,24 @@ public abstract class SortedSetTest extends SetTest {
        return new Random().ints().distinct().limit(N_ELEMENTS).boxed().toArray(Integer[]::new);
 
     }
+
     protected Integer[] getBigArrayHW() {
-        //TODO
-        return null;
- 
-     }
+        Integer[] array = IntStream.rangeClosed(1, N_ELEMENTS).boxed().toArray(Integer[]::new);
+        Integer[] balancedArray = new Integer[array.length];
+        addBalanced(array, 0, array.length - 1, 0, balancedArray);
+        return balancedArray;
+    }
+
+    private int addBalanced(Integer[] sortedArray, int left, int right, int index, Integer[] balancedArray) {
+        if (left <= right) {
+            int middle = (left + right) / 2;
+            balancedArray[index++] = sortedArray[middle];
+            index = addBalanced(sortedArray, left, middle - 1, index, balancedArray);
+            index = addBalanced(sortedArray, middle + 1, right, index, balancedArray);
+        }
+        return index;
+    }
+     
     @Override
     protected void runTest(Integer[] expected) {
         Integer[] expectedSorted = Arrays.copyOf(expected, expected.length);
